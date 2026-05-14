@@ -7,7 +7,11 @@ import sys as _sys
 from keyword import iskeyword as _iskeyword
 from operator import itemgetter as _itemgetter
 
-from segment_anything import SamPredictor
+try:
+    from segment_anything import SamPredictor
+except ImportError:
+    SamPredictor = None
+
 
 from comfy import model_management
 
