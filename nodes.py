@@ -16,7 +16,11 @@ from PIL import Image
 import io
 from scipy import stats
 from reactor_core.face_objects import Face
-from segment_anything import sam_model_registry
+try:
+    from segment_anything import sam_model_registry
+except ImportError:
+    sam_model_registry = None
+
 
 from r_modules.processing import ProcessingImg2Img
 from r_modules.shared import state
