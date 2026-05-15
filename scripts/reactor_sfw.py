@@ -36,9 +36,11 @@ logging.getLogger("transformers").setLevel(logging.ERROR)
 
 def nsfw_image(img_data, model_path: str):
     if not MODEL_EXISTS:
-        logger.status("Ensuring NSFW detection model exists...")
-        if not ensure_nsfw_model(model_path):
-            return True
+        try:
+            if not ensure_nsfw_model(model_path):
+                return False
+        except Exception:
+            return False
     device = model_management.get_torch_device()
     with Image.open(io.BytesIO(img_data)) as img:
         if "cpu" in str(device):
