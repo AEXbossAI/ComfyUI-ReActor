@@ -81,6 +81,23 @@ if not os.path.exists(REACTOR_MODELS_PATH):
     if not os.path.exists(FACE_MODELS_PATH):
         os.makedirs(FACE_MODELS_PATH)
 
+if not os.path.exists(FACE_MODELS_PATH):
+    os.makedirs(FACE_MODELS_PATH)
+
+_inswapper_target = os.path.join(FACE_MODELS_PATH, "inswapper_128.onnx")
+if not os.path.exists(_inswapper_target):
+    _salad_cache = "/root/.cache/comfyui-api"
+    if os.path.isdir(_salad_cache):
+        for _fn in os.listdir(_salad_cache):
+            _fp = os.path.join(_salad_cache, _fn)
+            if _fn.endswith(".onnx") and os.path.getsize(_fp) > 100_000_000:
+                try:
+                    os.symlink(_fp, _inswapper_target)
+                    print(f"[ReActor] inswapper symlink fixed: {_inswapper_target}")
+                except Exception as e:
+                    print(f"[ReActor] inswapper symlink error: {e}")
+                break
+
 dir_facerestore_models = os.path.join(models_dir, "facerestore_models")
 os.makedirs(dir_facerestore_models, exist_ok=True)
 folder_paths.folder_names_and_paths["facerestore_models"] = ([dir_facerestore_models], folder_paths.supported_pt_extensions)
