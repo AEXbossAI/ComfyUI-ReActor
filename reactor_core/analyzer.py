@@ -25,13 +25,16 @@ class ReActorFaceAnalysis:
         lmk2d_file = os.path.join(model_dir, "2d106det.onnx")
         lmk3d_file = os.path.join(model_dir, "1k3d68.onnx")
 
-        # Если файлов нет - качаем архив
+                # Если файлов нет - качаем архив
         if not (os.path.exists(det_file) and os.path.exists(rec_file) and os.path.exists(attr_file)):
-            zip_url = "https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/buffalo_l.zip"
+            zip_url = "https://github.com/deepinsight/insightface/releases/download/v0.7/buffalo_l.zip"
             zip_path = os.path.join(model_dir, f"{name}.zip")
 
             logger.status(f"Downloading {name} models archive...")
-            download(zip_url, zip_path, f"{name}.zip")
+            try:
+                download(zip_url, zip_path, f"{name}.zip")
+            except Exception as e:
+                logger.error(f"[ReActor] Failed to download buffalo_l: {e}")
 
             logger.status(f"Extracting {name} models...")
             try:
