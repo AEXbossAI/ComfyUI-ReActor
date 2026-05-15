@@ -160,7 +160,10 @@ def get_model_names(get_models):
 
 def model_names():
     models = get_models()
-    return {os.path.basename(x): x for x in models}
+    result = {os.path.basename(x): x for x in models}
+    if "inswapper_128.onnx" not in result:
+        result["inswapper_128.onnx"] = os.path.join(FACE_MODELS_PATH, "inswapper_128.onnx")
+    return result
 
 
 class reactor:
